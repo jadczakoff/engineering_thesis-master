@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="argo_mini">
+    <link
+            name="lamp_base">
+        <inertial>
+            <origin
+                    xyz="6.38378239159465E-15 -8.74300631892311E-16 0.0375000000000058"
+                    rpy="0 0 0"/>
+            <mass
+                    value="0.0733012105898839"/>
+            <inertia
+                    ixx="5.44652027866637E-05"
+                    ixy="-5.12218042690371E-33"
+                    ixz="-2.69959795876869E-18"
+                    iyy="5.44652027866637E-05"
+                    iyz="-7.62944173723805E-20"
+                    izz="1.42546821413524E-05"/>
+        </inertial>
+        <visual>
+            <origin
+                    xyz="0 0 0"
+                    rpy="0 0 0"/>
+            <geometry>
+                <mesh
+                        filename="package://argo_mini_urdf_lamp/meshes/lamp_base.STL"/>
+            </geometry>
+            <material
+                    name="">
+                <color
+                        rgba="0 0 0 0.98"/>
+            </material>
+        </visual>
+        <collision>
+            <origin
+                    xyz="0 0 0"
+                    rpy="0 0 0"/>
+            <geometry>
+                <mesh
+                        filename="package://argo_mini_urdf_lamp/meshes/lamp_base.STL"/>
+            </geometry>
+        </collision>
+    </link>
+    <link
+            name="lamp_mid">
+        <inertial>
+            <origin
+                    xyz="1.15740750317173E-14 -7.26849136434282E-16 2.77555756156289E-17"
+                    rpy="0 0 0"/>
+            <mass
+                    value="0.182212373908208"/>
+            <inertia
+                    ixx="0.000125650616174202"
+                    ixy="-8.76298124696192E-33"
+                    ixz="-4.59448302303838E-18"
+                    iyy="0.000125650616174202"
+                    iyz="-1.30367179072451E-19"
+                    izz="5.6941366846315E-05"/>
+        </inertial>
+        <visual>
+            <origin
+                    xyz="0 0 0"
+                    rpy="0 0 0"/>
+            <geometry>
+                <mesh
+                        filename="package://argo_mini_urdf_lamp/meshes/lamp_mid.STL"/>
+            </geometry>
+            <material
+                    name="">
+                <color
+                        rgba="1 0.807843137254902 0.294117647058824 0.8"/>
+            </material>
+        </visual>
+        <collision>
+            <origin
+                    xyz="0 0 0"
+                    rpy="0 0 0"/>
+            <geometry>
+                <mesh
+                        filename="package://argo_mini_urdf_lamp/meshes/lamp_mid.STL"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint
+            name="lamp_base_to_mid"
+            type="fixed">
+        <origin
+                xyz="0 0 0.115000000000006"
+                rpy="0 0 0"/>
+        <parent
+                link="lamp_base"/>
+        <child
+                link="lamp_mid"/>
+        <axis
+                xyz="0 0 0"/>
+    </joint>
+    <link
+            name="lamp_top">
+        <inertial>
+            <origin
+                    xyz="1.47798440153224E-14 -6.38378239159465E-16 0"
+                    rpy="0 0 0"/>
+            <mass
+                    value="0.0300414797499524"/>
+            <inertia
+                    ixx="5.25725895624166E-06"
+                    ixy="5.4166779685891E-34"
+                    ixz="2.78962319744147E-19"
+                    iyy="5.25725895624167E-06"
+                    iyz="7.83749151191659E-21"
+                    izz="9.38796242186012E-06"/>
+        </inertial>
+        <visual>
+            <origin
+                    xyz="0 0 0"
+                    rpy="0 0 0"/>
+            <geometry>
+                <mesh
+                        filename="package://argo_mini_urdf_lamp/meshes/lamp_top.STL"/>
+            </geometry>
+            <material
+                    name="">
+                <color
+                        rgba="0 0 0 0.98"/>
+            </material>
+        </visual>
+        <collision>
+            <origin
+                    xyz="0 0 0"
+                    rpy="0 0 0"/>
+            <geometry>
+                <mesh
+                        filename="package://argo_mini_urdf_lamp/meshes/lamp_top.STL"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint
+            name="lamp_mid_to_top"
+            type="fixed">
+        <origin
+                xyz="0 0 0.0475"
+                rpy="0 0 0"/>
+        <parent
+                link="lamp_mid"/>
+        <child
+                link="lamp_top"/>
+        <axis
+                xyz="0 0 0"/>
+    </joint>
+
+    <gazebo reference="lamp_base">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+    <gazebo reference="lamp_top">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+    <gazebo reference="lamp_mid">
+        <material>
+            Gazebo/OrangeTransparentOverlay
+        </material>
+    </gazebo>
+
+
+    <joint name="peripheral_to_lamp_base" type="fixed">
+        <parent link="peripheral_base"/>
+        <child link="lamp_base"/>
+        <axis xyz="0 0 0"/>
+    </joint>
+
+
+    <gazebo>
+        <model name='flashlight'>
+            <pose>0 0 0 0 0 0</pose>
+            <link name='light_source'>
+                <pose>0.2 0 0.15 0 0 0</pose>
+                <inertial>
+                    <mass>0.0025</mass>
+                    <inertia>
+                        <ixx>1.0e-05</ixx>
+                        <ixy>0</ixy>
+                        <ixz>0</ixz>
+                        <iyy>1.0e-05</iyy>
+                        <iyz>0</iyz>
+                        <izz>1.0e-05</izz>
+                    </inertia>
+                </inertial>
+                <light name='lamp' type='point'>
+                    <pose>0 0 0.0 0 0 0</pose>
+                    <attenuation>
+                        <range>2</range>
+                        <linear>0</linear>
+                        <constant>0.1</constant>
+                        <quadratic>0.1</quadratic>
+                    </attenuation>
+                    <diffuse>0.8 0.8 0.5 1</diffuse>
+                    <specular>0.8 0.8 0.5 1</specular>
+                </light>
+                <visual name='lamp'>
+                    <geometry>
+                        <cylinder>
+                            <radius>0.019</radius>
+                            <length>0.005</length>
+                        </cylinder>
+                    </geometry>
+                    <transparency>1.0</transparency>
+                    <material>
+                        <ambient>1 1 1 1</ambient>
+                        <diffuse>1 1 1 1</diffuse>
+                        <specular>1 1 1 1</specular>
+                        <emissive>0.8 0.8 0.5 1</emissive>
+                    </material>
+                </visual>
+            </link>
+            <plugin name='light_control' filename='libFlashLightPlugin.so'>
+                <enable>true</enable>
+                <light>
+                    <id>light_source/lamp</id>
+                    <duration>0.5</duration>
+                    <interval>0.5</interval>
+                </light>
+            </plugin>
+        </model>
+    </gazebo>
+    <gazebo>
+        <joint name='flashlight_joint' type='fixed'>
+            <parent>lamp_mid</parent>
+            <child>flashlight::light_source</child>
+        </joint>
+    </gazebo>
+</robot>

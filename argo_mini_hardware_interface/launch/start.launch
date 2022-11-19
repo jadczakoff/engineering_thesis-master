@@ -1,0 +1,17 @@
+<launch>
+
+    <rosparam file="$(find argo_mini_urdf_podstawa)/config/modules_info.yaml"/>
+    <group ns="argo_mini">
+        <node pkg="argo_mini_hardware_interface" type="node" name="hardware_interface_node"
+              output="screen">
+            <rosparam command="load" file="$(find argo_mini_hardware_interface)/config/hardware.yaml"/>
+        </node>
+
+        <param
+                name="robot_description"
+                command="$(find xacro)/xacro $(find argo_mini_urdf_podstawa)/urdf/argo_mini_urdf_podstawa.xacro"/>
+        <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+              output="screen"
+              args="joint_state_controller six_wheel_steering_controller "/>
+    </group>
+</launch>

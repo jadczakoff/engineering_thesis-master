@@ -1,0 +1,6 @@
+<library path="lib/libsix_wheel_steering_controller">
+
+    <class name="six_wheel_steering_controller/SixWheelSteeringController" type="six_wheel_steering_controller::SixWheelSteeringController" base_class_type="controller_interface::ControllerBase">
+    </class>
+
+</library>

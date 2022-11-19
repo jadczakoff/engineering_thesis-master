@@ -1,0 +1,77 @@
+<launch>
+    <arg name="simulation" default="false"/>
+    <arg name="rviz" default="true"/>
+    <arg name="peripheral" default=""/>
+    <arg name="drive" default="6w"/>
+    <arg name="mapping" default="false"/>
+
+    <include file="$(find aws_robomaker_small_warehouse_world)/launch/magazyn_z_18_tagami.launch"
+             if="$(arg simulation)"/>
+
+    <node name="rviz" pkg="rviz" type="rviz" if="$(arg rviz)" args="-d $(find argo_mini)/rviz/rviz.rviz"/>
+
+    <rosparam file="$(find argo_mini)/config/controllers_info.yaml"/>
+    <rosparam file="$(find argo_mini)/config/hardware.yaml" unless="$(arg simulation)"/>
+
+    <group ns="argo_mini">
+        <arg name="_drive" value="argo_mini_urdf_6w_drive" if="$(eval drive=='6w')"/>
+        <arg name="_drive" value="argo_mini_urdf_4w_drive" if="$(eval drive=='4w')"/>
+
+        <arg name="_peripheral" value=""
+             unless="$(eval peripheral == 'zed' or peripheral == 'zed_gimbal' or peripheral == 'lamp')"/>
+        <arg name="_peripheral" value="argo_mini_urdf_zed_gimbal" if="$(eval peripheral == 'zed_gimbal')"/>
+        <arg name="_peripheral" value="argo_mini_urdf_zed" if="$(eval peripheral == 'zed')"/>
+        <arg name="_peripheral" value="argo_mini_urdf_lamp" if="$(eval peripheral == 'lamp')"/>
+
+        <param name="robot_description"
+               command="$(find xacro)/xacro $(find argo_mini_urdf_podstawa)/urdf/argo_mini_urdf_podstawa.xacro
+               drive:=$(arg _drive)
+               peripheral:=$(arg _peripheral)"/>
+
+        <arg name="_drive_controller" value="6w_controller" if="$(eval drive=='6w')"/>
+        <arg name="_drive_controller" value="4w_controller" if="$(eval drive=='4w')"/>
+
+        <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+              args="joint_state_controller $(arg _drive_controller)"/>
+
+        <node name="cmd_vel_republish" pkg="topic_tools" type="relay"
+              args="'/argo_mini/cmd_vel' '/argo_mini/4w_controller/cmd_vel'" if="$(eval drive=='4w')"/>
+
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+              respawn="false"/>
+
+        <group if="$(arg simulation)">
+
+            <node name="spawn_model" pkg="gazebo_ros" type="spawn_model"
+                  args="-param '/argo_mini/robot_description' -urdf -model argo_mini"/>
+
+            <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter">
+                <rosparam command="load" file="$(find argo_mini)/config/laser_filter_config.yaml"/>
+                <remap from="scan" to="laser/scan"/>
+                <remap from="scan_filtered" to="laser/scan/filtered"/>
+            </node>
+
+            <include file="$(find argo_mini)/launch/mapping.launch" if="$(arg mapping)"/>
+        </group>
+
+        <group unless="$(arg simulation)">
+            <arg name="_remote_drive" value="6w" if="$(eval drive=='6w')"/>
+
+            <include file="$(find argo_mini)/launch/remote_nodes.launch">
+                <arg name="zed" value="$(eval peripheral == 'zed' or peripheral == 'zed_gimbal')"/>
+                <arg name="mapping" value="$(arg mapping)"/>
+                <arg name="drive" value="$(arg _remote_drive)"/>
+            </include>
+
+            <node name="front_camera_node" type="ipcamera_driver" pkg="ipcamera_driver">
+                <param name="video_url" value="http://argo-mini.wlan:8080/?action=stream"/>
+                <param name="frame_id" value="front_camera_z"/>
+
+                <remap from="/camera/image" to="front_camera/image"/>
+            </node>
+
+        </group>
+
+        <include file="$(find argo_mini)/launch/joy_steering.launch"/>
+    </group>
+</launch>

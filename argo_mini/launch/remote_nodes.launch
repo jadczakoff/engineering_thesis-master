@@ -1,0 +1,47 @@
+<launch>
+    <arg name="zed" default="false"/>
+    <arg name="mapping" default="false"/>
+    <arg name="drive" default="6w"/>
+
+    <machine name="argo_mini" address="argo-mini.wlan" user="argo" password="argoteam"
+             env-loader="/home/argo/argo_mini_startup_ws/env.sh"/>
+
+    <node name="hardware_interface_node" pkg="argo_mini_hardware_interface" type="node" machine="argo_mini"
+          required="true">
+        <rosparam command="load" file="$(find argo_mini)/config/hardware.yaml"/>
+        <param name="argo_mini/drive" value="$(arg drive)"/>
+    </node>
+
+    <node name="rplidar_node" pkg="rplidar_ros" type="rplidarNode" machine="argo_mini">
+
+        <param name="serial_port" type="string" value="/dev/ttyUSB0"/>
+        <param name="serial_baudrate" type="int" value="115200"/>
+        <param name="frame_id" type="string" value="rp_lidar_a1"/>
+        <param name="inverted" type="bool" value="true"/>
+        <param name="angle_compensate" type="bool" value="true"/>
+
+        <remap from="scan" to="laser/scan"/>
+    </node>
+
+    <node name="zed_node" pkg="zed_wrapper" type="zed_wrapper_node" machine="argo_mini"
+          if="$(arg zed)">
+        <rosparam file="$(find zed_wrapper)/params/common.yaml" command="load"/>
+        <rosparam file="$(find zed_wrapper)/params/zed2.yaml" command="load"/>
+
+        <param name="general/zed_id" value="0"/>
+        <param name="general/gpu_id" value="-1"/>
+        <param name="general/camera_name" value="zed2"/>
+        <param name="general/base_frame" value="base_link"/>
+    </node>
+
+    <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_filter"
+          machine="argo_mini">
+        <rosparam command="load" file="$(find argo_mini)/config/laser_filter_config.yaml"/>
+        <remap from="scan" to="laser/scan"/>
+        <remap from="scan_filtered" to="laser/scan/filtered"/>
+    </node>
+
+    <include file="$(find argo_mini)/launch/mapping.launch" if="$(arg mapping)">
+        <arg name="machine" value="argo_mini"/>
+    </include>
+</launch>

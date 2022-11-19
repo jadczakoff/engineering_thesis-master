@@ -1,0 +1,42 @@
+#### ADDITIONAL INFO TO MODULES ####
+
+argo_mini:
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+  gazebo_ros_control:
+    pid_gains:
+      front_left_turn: { p: 2.0, i: 0.02, d: 0.0 }
+      front_right_turn: { p: 2.0, i: 0.02, d: 0.0 }
+      mid_left_turn: { p: 2.0, i: 0.02, d: 0.0 }
+      mid_right_turn: { p: 2.0, i: 0.02, d: 0.0 }
+      rear_left_turn: { p: 2.0, i: 0.02, d: 0.0 }
+      rear_right_turn: { p: 2.0, i: 0.02, d: 0.0 }
+      front_left_wheel: { p: 2.0, i: 0.02, d: 0.0 }
+      front_right_wheel: { p: 2.0, i: 0.02, d: 0.0 }
+      mid_left_wheel: { p: 2.0, i: 0.02, d: 0.0 }
+      mid_right_wheel: { p: 2.0, i: 0.02, d: 0.0 }
+      rear_left_wheel: { p: 2.0, i: 0.02, d: 0.0 }
+      rear_right_wheel: { p: 2.0, i: 0.02, d: 0.0 }
+      gimbal_yaw: { p: 2.0, i: 0.02, d: 0.0 }
+      gimbal_pitch: { p: 2.0, i: 0.02, d: 0.0 }
+
+  six_wheel_steering_controller:
+    type: six_wheel_steering_controller/SixWheelSteeringController
+
+    front_right_steering_joint: front_right_turn
+    front_left_steering_joint: front_left_turn
+    mid_right_steering_joint: mid_right_turn
+    mid_left_steering_joint: mid_left_turn
+    rear_right_steering_joint: rear_right_turn
+    rear_left_steering_joint: rear_left_turn
+    front_right_wheel_joint: front_right_wheel
+    front_left_wheel_joint: front_left_wheel
+    mid_right_wheel_joint: mid_right_wheel
+    mid_left_wheel_joint: mid_left_wheel
+    rear_right_wheel_joint: rear_right_wheel
+    rear_left_wheel_joint: rear_left_wheel
+
+    base_frame_id: base_link
+    enable_odom_tf: true

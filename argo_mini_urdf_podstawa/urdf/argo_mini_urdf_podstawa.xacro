@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="argo_mini">
+
+    <xacro:macro name="gazebo_corpse" params="link">
+        <gazebo reference="${link}">
+            <material>Gazebo/Gray</material>
+        </gazebo>
+    </xacro:macro>
+
+    <link name="base_footprint"/>
+    <link
+            name="base_link">
+        <inertial>
+            <origin
+                    xyz="-0.0035366 -0.0061293 -0.032346"
+                    rpy="0 0 0"/>
+            <mass
+                    value="2.4754"/>
+            <inertia
+                    ixx="0.0045693"
+                    ixy="8.7034E-07"
+                    ixz="2.5035E-05"
+                    iyy="0.0058959"
+                    iyz="7.9076E-07"
+                    izz="0.0092346"/>
+        </inertial>
+        <visual>
+            <origin
+                    xyz="0 0 0"
+                    rpy="0 0 0"/>
+            <geometry>
+                <mesh
+                        filename="package://argo_mini_urdf_podstawa/meshes/base_link.STL"/>
+            </geometry>
+            <material
+                    name="">
+                <color
+                        rgba="0.56471 0.56471 0.56471 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin
+                    xyz="0 0 0"
+                    rpy="0 0 0"/>
+            <geometry>
+                <mesh
+                        filename="package://argo_mini_urdf_podstawa/meshes/base_link.STL"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="base_to_footprint" type="fixed">
+        <parent link="base_footprint"/>
+        <child link="base_link"/>
+        <origin xyz="0 0 0.2" rpy="0 0 0"/>
+    </joint>
+
+    <link name="peripheral_base">
+        <inertial>
+            <origin
+                    xyz=" 0 0 0"
+                    rpy="0 0 0"/>
+            <mass
+                    value="1e-3"/>
+            <inertia
+                    ixx="1e-3"
+                    ixy="0"
+                    ixz="0"
+                    iyy="1e-3"
+                    iyz="0"
+                    izz="1e-3"/>
+        </inertial>
+
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder length="1e-4" radius="1e-4"/>
+            </geometry>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder length="1e-4" radius="1e-4"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="base_link_to_peripheral_base"
+           type="fixed">
+        <origin
+                xyz="0.19495 -0.0061284 0.0063061"
+                rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="peripheral_base"/>
+    </joint>
+
+    <link name="front_camera"/>
+    <link name="front_camera_z"/>
+
+    <joint name="front_camera_joint"
+            type="fixed">
+        <origin
+                xyz="0.29213 -0.0061284 -0.03"
+                rpy="0 0 0"
+        />
+        <!--                rpy="-1.5708 0 -1.5708"-->
+        <parent
+                link="base_link"/>
+        <child
+                link="front_camera"/>
+        <axis
+                xyz="0 0 0"/>
+    </joint>
+
+    <joint name="front_camera_joint_z"
+            type="fixed">
+        <origin
+                xyz="0.29213 -0.0061284 -0.03"
+                rpy="-1.5708 0 -1.5708"
+        />
+
+        <parent
+                link="base_link"/>
+        <child
+                link="front_camera_z"/>
+        <axis
+                xyz="0 0 0"/>
+    </joint>
+    <link name="rp_lidar_a1"/>
+    <joint
+            name="rp_lidar_a1_joint"
+            type="fixed">
+        <origin
+                xyz="0.23107 -0.0049901 -0.095067"
+                rpy="-3.1416 0 0"/>
+        <parent
+                link="base_link"/>
+        <child
+                link="rp_lidar_a1"/>
+        <axis
+                xyz="0 0 0"/>
+    </joint>
+
+    <xacro:gazebo_corpse link="base_link"/>
+
+    <xacro:arg name="drive" default="argo_mini_urdf_6w_drive"/>
+    <xacro:arg name="peripheral" default=""/>
+
+    <xacro:property name="drive_pkg_name" value="$(arg drive)"/>
+
+    <xacro:include filename="$(find ${drive_pkg_name})/urdf/main.xacro"/>
+
+    <xacro:if value="$(eval peripheral != '')">
+        <xacro:property name="peripheral_pkg_name" value="$(arg peripheral)"/>
+        <xacro:include filename="$(find ${peripheral_pkg_name})/urdf/main.xacro"/>
+    </xacro:if>
+
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/argo_mini</robotNamespace>
+        </plugin>
+    </gazebo>
+
+    <gazebo reference="front_camera">
+        <material>Gazebo/Green</material>
+        <sensor type="camera" name="front_camera">
+            <update_rate>30.0</update_rate>
+            <camera name="front">
+                <horizontal_fov>1.3962634</horizontal_fov>
+                <image>
+                    <width>1920</width>
+                    <height>1080</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.1</near>
+                    <far>300</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.00</stddev>
+                </noise>
+            </camera>
+            <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>/front_camera</cameraName>
+                <imageTopicName>image</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>/front_camera</frameName>
+                <hackBaseline>0.07</hackBaseline>
+                <distortionK1>0.0</distortionK1>
+                <distortionK2>0.0</distortionK2>
+                <distortionK3>0.0</distortionK3>
+                <distortionT1>0.0</distortionT1>
+                <distortionT2>0.0</distortionT2>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+    <gazebo reference="rp_lidar_a1">
+        <material>Gazebo/Blue</material>
+        <sensor type="ray" name="head_hokuyo_sensor">
+            <pose>0 0 0 0 0 0</pose>
+            <visualize>true</visualize>
+            <update_rate>10</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>4000</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-3.14.</min_angle>
+                        <max_angle>3.14</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.10</min>
+                    <max>12.0</max>
+                    <resolution>0.01</resolution>
+                </range>
+                <noise>
+                    <type>gaussian</type>
+                    <!-- Noise parameters based on published spec for Hokuyo laser
+                         achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
+                         stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+                         reading. -->
+                    <mean>0.0</mean>
+                    <stddev>0.01</stddev>
+                </noise>
+            </ray>
+            <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+                <topicName>/argo_mini/laser/scan</topicName>
+                <frameName>/rp_lidar_a1</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+</robot>

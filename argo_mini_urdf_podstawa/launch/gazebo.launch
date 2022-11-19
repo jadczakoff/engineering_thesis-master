@@ -1,0 +1,36 @@
+<launch>
+  <include file="$(find aws_robomaker_small_warehouse_world)/launch/magazyn_z_18_tagami.launch"/>
+
+  <param
+          name="argo_mini/robot_description"
+          command="$(find xacro)/xacro $(find argo_mini_urdf_podstawa)/urdf/argo_mini_urdf_podstawa.xacro" />
+
+  <rosparam file="$(find argo_mini_urdf_podstawa)/config/modules_info.yaml"/>
+
+  <node
+    name="tf_footprint_base"
+    pkg="tf"
+    type="static_transform_publisher"
+    args="0 0 0 0 0 0 base_link base_footprint 40" />
+  <node
+    name="spawn_model"
+    pkg="gazebo_ros"
+    type="spawn_model"
+    args="-param 'argo_mini/robot_description' -urdf -model argo_mini -z 0.275"
+    output="screen" />
+  <node
+    name="fake_joint_calibration"
+    pkg="rostopic"
+    type="rostopic"
+    args="pub /calibrated std_msgs/Bool true" />
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" ns="/argo_mini"
+        args="joint_state_controller six_wheel_steering_controller "/>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+        respawn="false" output="screen">
+    <remap from="joint_states" to="argo_mini/joint_states"/>
+    <remap from="robot_description" to="argo_mini/robot_description"/>
+  </node>
+</launch>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="argo_mini_urdf_podstawa">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-0.0035366 -0.0061293 -0.032346"
+        rpy="0 0 0" />
+      <mass
+        value="2.4754" />
+      <inertia
+        ixx="0.0045693"
+        ixy="8.7034E-07"
+        ixz="2.5035E-05"
+        iyy="0.0058959"
+        iyz="7.9076E-07"
+        izz="0.0092346" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_podstawa/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.56471 0.56471 0.56471 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_podstawa/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="peripheral_base"/>
+  <joint
+    name="base_link_to_peripheral_base"
+    type="fixed">
+    <origin
+      xyz="0.19495 -0.0061284 0.0063061"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="peripheral_base" />
+    <axis
+      xyz="0 0 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="100"
+      velocity="3.14" />
+  </joint>
+</robot>

@@ -1,0 +1,113 @@
+#### ADDITIONAL INFO TO MODULES ####
+
+argo_mini:
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+  forward_group_controller:
+    type: velocity_controllers/JointGroupVelocityController
+    joints: [ 'front_left_wheel', 'rear_left_wheel', 'front_right_wheel', 'rear_right_wheel' ]
+
+  gazebo_ros_control:
+    pid_gains:
+      front_left_turn: { p: 2.0, i: 0.02, d: 0.0 }
+      front_right_turn: { p: 2.0, i: 0.02, d: 0.0 }
+      mid_left_turn: { p: 2.0, i: 0.02, d: 0.0 }
+      mid_right_turn: { p: 2.0, i: 0.02, d: 0.0 }
+      rear_left_turn: { p: 2.0, i: 0.02, d: 0.0 }
+      rear_right_turn: { p: 2.0, i: 0.02, d: 0.0 }
+      front_left_wheel: { p: 2.0, i: 0.02, d: 0.0 }
+      front_right_wheel: { p: 2.0, i: 0.02, d: 0.0 }
+      mid_left_wheel: { p: 2.0, i: 0.02, d: 0.0 }
+      mid_right_wheel: { p: 2.0, i: 0.02, d: 0.0 }
+      rear_left_wheel: { p: 2.0, i: 0.02, d: 0.0 }
+      rear_right_wheel: { p: 2.0, i: 0.02, d: 0.0 }
+      gimbal_yaw: { p: 2.0, i: 0.02, d: 0.0 }
+      gimbal_pitch: { p: 2.0, i: 0.02, d: 0.0 }
+
+  6w_controller:
+    type: six_wheel_steering_controller/SixWheelSteeringController
+
+    front_right_steering_joint: front_right_turn
+    front_left_steering_joint: front_left_turn
+    mid_right_steering_joint: mid_right_turn
+    mid_left_steering_joint: mid_left_turn
+    rear_right_steering_joint: rear_right_turn
+    rear_left_steering_joint: rear_left_turn
+    front_right_wheel_joint: front_right_wheel
+    front_left_wheel_joint: front_left_wheel
+    mid_right_wheel_joint: mid_right_wheel
+    mid_left_wheel_joint: mid_left_wheel
+    rear_right_wheel_joint: rear_right_wheel
+    rear_left_wheel_joint: rear_left_wheel
+
+    base_frame_id: base_footprint
+    enable_odom_tf: true
+
+    pose_covariance: [ 0.001, 0,    0,          0,          0,          0,
+                       0,     0.001,0,          0,          0,          0,
+                       0,     0,    1000000.0,  0,          0,          0,
+                       0,     0,    0,          1000000.0,  0,          0,
+                       0,     0,    0,          0,          1000000.0,  0,
+                       0,     0,    0,          0,          0,          1000.0 ]
+    twist_covariance: [ 0.001, 0,    0,          0,          0,          0,
+                        0,     0.001,0,          0,          0,          0,
+                        0,     0,    1000000.0,  0,          0,          0,
+                        0,     0,    0,          1000000.0,  0,          0,
+                        0,     0,    0,          0,          1000000.0,  0,
+                        0,     0,    0,          0,          0,          1000.0 ]
+
+    limits:
+      linear:
+        x:
+          has_velocity_limits: true
+          has_acceleration_limits: false
+          has_jerk_limits: false
+
+          max_velocity: 1.0  # m/s
+          min_velocity: -0.5 # m/s
+
+          max_acceleration: 0.8  # m/s^2
+          min_acceleration: -0.4 # m/s^2
+
+          max_jerk: 5.0  # m/s^3
+          min_jerk: -5.0  # m/s^3
+        y:
+          has_velocity_limits: true
+          has_acceleration_limits: false
+          has_jerk_limits: false
+
+          max_velocity: 1.0  # m/s
+          min_velocity: -0.5 # m/s
+
+          max_acceleration: 0.8  # m/s^2
+          min_acceleration: -0.4 # m/s^2
+
+          max_jerk: 5.0  # m/s^3
+          min_jerk: -5.0  # m/s^3
+
+      angular:
+        z:
+          has_velocity_limits: false
+          has_acceleration_limits: false
+          has_jerk_limits: false
+
+          max_velocity: 3.14  # rad/s
+          min_velocity: -3.14
+
+          max_acceleration: 1.5  # rad/s^2
+          min_acceleration: -1.5  # rad/s^2
+
+          max_jerk: 2.5  # rad/s^3
+          min_jerk: -2.5  # rad/s^3
+
+  4w_controller:
+    type: "diff_drive_controller/DiffDriveController"
+    left_wheel: [ 'front_left_wheel', 'rear_left_wheel' ]
+    right_wheel: [ 'front_right_wheel', 'rear_right_wheel' ]
+    pose_covariance_diagonal: [ 0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0 ]
+    twist_covariance_diagonal: [ 0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0 ]
+
+    enable_odom_tf: true
+

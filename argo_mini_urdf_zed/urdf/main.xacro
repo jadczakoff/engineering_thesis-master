@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot name="argo_mini_urdf_zed" xmlns:xacro="http://ros.org/wiki/xacro">
+    <link
+            name="zed_base">
+        <inertial>
+            <origin
+                    xyz="6.10622663543836E-16 4.61436444609831E-16 0.0201408009107306"
+                    rpy="0 0 0"/>
+            <mass
+                    value="0.0201408009107248"/>
+            <inertia
+                    ixx="3.77238450677387E-06"
+                    ixy="5.58905135559662E-21"
+                    ixz="1.30185618099989E-20"
+                    iyy="3.39474448969778E-06"
+                    iyz="-1.42271242190791E-20"
+                    izz="1.72036007779108E-06"/>
+        </inertial>
+        <visual>
+            <origin
+                    xyz="0 0 0"
+                    rpy="0 0 0"/>
+            <geometry>
+                <mesh
+                        filename="package://argo_mini_urdf_zed/meshes/zed_base.STL"/>
+            </geometry>
+            <material
+                    name="">
+                <color
+                        rgba="0.792156862745098 0.819607843137255 0.933333333333333 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin
+                    xyz="0 0 0"
+                    rpy="0 0 0"/>
+            <geometry>
+                <mesh
+                        filename="package://argo_mini_urdf_zed/meshes/zed_base.STL"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <gazebo reference="zed_base">
+        <material>Gazebo/Gray</material>
+    </gazebo>
+
+
+    <joint name="peripheral_to_zed_base" type="fixed">
+        <parent link="peripheral_base"/>
+        <child link="zed_base"/>
+    </joint>
+
+    <xacro:include filename="$(find argo_mini_urdf_zed_gimbal)/urdf/zed.xacro"/>
+
+    <joint
+            name="zed_base_joint"
+            type="fixed">
+        <origin
+                xyz="0 0 0.05"
+                rpy="0 0 0"/>
+
+        <parent
+                link="zed_base"/>
+        <child
+                link="zed_base_link"/>
+    </joint>
+
+    <gazebo reference="zed2_camera_center">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+    <gazebo reference="zed2_right_camera_frame">
+        <material>Gazebo/Green</material>
+        <sensor type="camera" name="camera1">
+            <update_rate>30.0</update_rate>
+            <camera name="head">
+                <horizontal_fov>1.3962634</horizontal_fov>
+                <image>
+                    <width>1920</width>
+                    <height>1080</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.1</near>
+                    <far>300</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.00</stddev>
+                </noise>
+            </camera>
+            <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>/zed2/right</cameraName>
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>zed2_right_camera_optical_frame</frameName>
+                <hackBaseline>0.07</hackBaseline>
+                <distortionK1>0.0</distortionK1>
+                <distortionK2>0.0</distortionK2>
+                <distortionK3>0.0</distortionK3>
+                <distortionT1>0.0</distortionT1>
+                <distortionT2>0.0</distortionT2>
+            </plugin>
+        </sensor>
+    </gazebo>
+    <gazebo reference="zed2_left_camera_frame">
+        <material>Gazebo/Green</material>
+        <sensor type="camera" name="camera1">
+            <update_rate>30.0</update_rate>
+            <camera name="head">
+                <horizontal_fov>1.3962634</horizontal_fov>
+                <image>
+                    <width>1920</width>
+                    <height>1080</height>
+                    <format>R8G8B8</format>
+                </image>
+                <clip>
+                    <near>0.1</near>
+                    <far>300</far>
+                </clip>
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.00</stddev>
+                </noise>
+            </camera>
+            <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                <alwaysOn>true</alwaysOn>
+                <updateRate>0.0</updateRate>
+                <cameraName>/zed2/left</cameraName>
+                <imageTopicName>image_raw</imageTopicName>
+                <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+                <frameName>zed2_left_camera_optical_frame</frameName>
+                <hackBaseline>0.07</hackBaseline>
+                <distortionK1>0.0</distortionK1>
+                <distortionK2>0.0</distortionK2>
+                <distortionK3>0.0</distortionK3>
+                <distortionT1>0.0</distortionT1>
+                <distortionT2>0.0</distortionT2>
+            </plugin>
+        </sensor>
+    </gazebo>
+</robot>

@@ -1,0 +1,1 @@
+controller_joint_names: ['', 'front_left_turn', 'front_left_wheel', 'front_right_turn', 'front_right_wheel', 'mid_left_turn', 'mid_left_wheel', 'mid_right_turn', 'mid_right_wheel', 'rear_left_turn', 'rear_left_wheel', 'rear_right_turn', 'rear_right_wheel', ]

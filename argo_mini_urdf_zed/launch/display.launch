@@ -1,0 +1,17 @@
+<launch>
+  <arg
+    name="model" />
+  <param
+    name="robot_description"
+    command="xacro $(find argo_mini_urdf_zed)/urdf/main.xacro" />
+
+  <node
+    name="robot_state_publisher"
+    pkg="robot_state_publisher"
+    type="robot_state_publisher" />
+  <node
+    name="rviz"
+    pkg="rviz"
+    type="rviz"
+    args="-d $(find argo_mini_urdf_zed)/urdf.rviz" />
+</launch>

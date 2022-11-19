@@ -1,0 +1,39 @@
+teleop:
+  normal:
+    type: topic
+    message_type: geometry_msgs/Twist
+    topic_name: cmd_vel
+    deadman_buttons: [1]
+    axis_mappings:
+      -
+        target: linear.x
+        axis: 1
+        scale: 0.5
+        offset: 0
+      -
+        target: angular.z
+        axis: 0
+        scale: 2.
+        offset: 0
+
+  planar:
+    type: topic
+    message_type: geometry_msgs/Twist
+    topic_name: cmd_vel
+    deadman_buttons: [0]
+    axis_mappings:
+      -
+        target: linear.x
+        axis: 1
+        scale: 0.5
+        offset: 0
+      -
+        target: linear.y
+        axis: 0
+        scale: 0.5
+        offset: 0
+      -
+        target: angular.z
+        axis: 2
+        scale: 2.
+        offset: 0

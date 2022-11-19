@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="argo_mini" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="pos_transmiss" params="joint reduction:=1">
+
+    <transmission name="trans_${joint}">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${joint}">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${joint}_motor">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        <mechanicalReduction>${reduction}</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+
+  <link name="gimbal_yaw_link">
+    <inertial>
+      <origin
+              xyz="-0.013807 3.3307E-16 0.019701"
+              rpy="0 0 0"/>
+      <mass
+              value="0.023731"/>
+      <inertia
+              ixx="3.7948E-06"
+              ixy="0"
+              ixz="1.0241E-06"
+              iyy="5.6772E-06"
+              iyz="0"
+              izz="3.3783E-06"/>
+    </inertial>
+    <visual>
+      <origin
+              xyz="0 0 0"
+              rpy="0 0 0"/>
+      <geometry>
+        <mesh
+                filename="package://argo_mini_urdf_zed_gimbal/meshes/gimbal_yaw_link.STL"/>
+      </geometry>
+      <material
+              name="">
+        <color
+                rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin
+              xyz="0 0 0"
+              rpy="0 0 0"/>
+      <geometry>
+        <mesh
+                filename="package://argo_mini_urdf_zed_gimbal/meshes/gimbal_yaw_link.STL"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="gimbal_yaw"
+          type="revolute">
+    <origin
+            xyz="0 0 0"
+            rpy="0 0 -1.5707"/>
+    <parent
+            link="peripheral_base"/>
+    <child
+            link="gimbal_yaw_link"/>
+    <axis
+            xyz="0 0 -1"/>
+    <limit
+            lower="-3.14"
+            upper="3.14"
+            effort="30"
+            velocity="1.57"/>
+    <dynamics damping="0.3" friction="0.13"/>
+  </joint>
+  <link          name="gimbal_pitch_link">
+    <inertial>
+      <origin
+              xyz="6.5001E-05 2.9143E-16 0.011376"
+              rpy="0 0 0"/>
+      <mass
+              value="0.015104"/>
+      <inertia
+              ixx="2.2986E-06"
+              ixy="-5.3274E-23"
+              ixz="1.0948E-08"
+              iyy="2.3184E-06"
+              iyz="-4.1328E-22"
+              izz="9.7714E-07"/>
+    </inertial>
+    <visual>
+      <origin
+              xyz="0 0 0"
+              rpy="0 0 0"/>
+      <geometry>
+        <mesh
+                filename="package://argo_mini_urdf_zed_gimbal/meshes/gimbal_pitch_link.STL"/>
+      </geometry>
+      <material
+              name="">
+        <color
+                rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin
+              xyz="0 0 0"
+              rpy="0 0 0"/>
+      <geometry>
+        <mesh
+                filename="package://argo_mini_urdf_zed_gimbal/meshes/gimbal_pitch_link.STL"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="gimbal_pitch"
+          type="revolute">
+    <origin
+            xyz="0 0 0.033"
+            rpy="0 0 0"/>
+    <parent
+            link="gimbal_yaw_link"/>
+    <child
+            link="gimbal_pitch_link"/>
+    <axis
+            xyz="-1 0 0"/>
+    <limit
+            lower="-1.57"
+            upper="1.57"
+            effort="20"
+            velocity="1.57"/>
+    <dynamics damping="0.3" friction="0.13"/>
+  </joint>
+
+  <xacro:include filename="$(find argo_mini_urdf_zed_gimbal)/urdf/zed.xacro"/>
+  <joint name="zed_joint"
+          type="fixed">
+    <origin
+            xyz="0 0 0.045"
+            rpy="0 0 1.57"/>
+    <parent
+            link="gimbal_pitch_link"/>
+    <child
+            link="zed_base_link"/>
+    <axis
+            xyz="0 0 0"/>
+  </joint>
+
+  <gazebo reference="zed2_camera_center">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <xacro:pos_transmiss joint="gimbal_pitch"/>
+  <xacro:pos_transmiss joint="gimbal_yaw"/>
+
+  <xacro:gazebo_corpse link="gimbal_yaw_link"/>
+  <xacro:gazebo_corpse link="gimbal_pitch_link"/>
+
+  <gazebo reference="zed2_right_camera_frame">
+    <material>Gazebo/Green</material>
+    <sensor type="camera" name="camera1">
+      <update_rate>30.0</update_rate>
+      <camera name="head">
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>1920</width>
+          <height>1080</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>300</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.00</stddev>
+        </noise>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>/zed2/right</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>zed2_right_camera_optical_frame</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+  <gazebo reference="zed2_left_camera_frame">
+    <material>Gazebo/Green</material>
+    <sensor type="camera" name="camera1">
+      <update_rate>30.0</update_rate>
+      <camera name="head">
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>1920</width>
+          <height>1080</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>300</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.00</stddev>
+        </noise>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>/zed2/left</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>zed2_left_camera_optical_frame</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+</robot>

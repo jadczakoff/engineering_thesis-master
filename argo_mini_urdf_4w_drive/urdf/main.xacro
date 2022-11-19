@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="argo_mini_urdf_4w_drive">
+    <xacro:macro name="vel_transmiss" params="joint reduction:=1">
+
+        <transmission name="trans_${joint}">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${joint}">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="${joint}_motor">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+                <mechanicalReduction>${reduction}</mechanicalReduction>
+            </actuator>
+        </transmission>
+    </xacro:macro>
+
+    <xacro:macro name="wheel_collision">
+        <collision>
+            <origin
+                    xyz="0 0 0.03"
+                    rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.07" length="0.05"/>
+            </geometry>
+        </collision>
+    </xacro:macro>
+
+    <xacro:macro name="gazebo_wheel" params="link">
+        <gazebo reference="${link}">
+            <mu1>0.2</mu1>
+            <mu2>0.2</mu2>
+
+            <fdir1>1 0 0</fdir1>
+            <maxContacts>20</maxContacts>
+            <minDepth>0.005</minDepth>
+            <gravity>true</gravity>
+
+            <material>Gazebo/Black</material>
+        </gazebo>
+    </xacro:macro>
+
+    <link name="drive_base">
+        <inertial>
+            <origin
+                    xyz="0.0152719713400001 -0.00612835379242804 -0.0578495169399289"
+                    rpy="0 0 0"/>
+            <mass
+                    value="1.12373660195847"/>
+            <inertia
+                    ixx="0.000849659334908946"
+                    ixy="-1.31040126128247E-10"
+                    ixz="3.03703022546145E-05"
+                    iyy="0.00222586512261952"
+                    iyz="6.23818341132998E-11"
+                    izz="0.00202629037779116"/>
+        </inertial>
+        <visual>
+            <origin
+                    xyz="0 0 0"
+                    rpy="0 0 0"/>
+            <geometry>
+                <mesh
+                        filename="package://argo_mini_urdf_4w_drive/meshes/drive_base.STL"/>
+            </geometry>
+            <material
+                    name="">
+                <color
+                        rgba="0.564705882352941 0.564705882352941 0.564705882352941 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin
+                    xyz="0 0 0"
+                    rpy="0 0 0"/>
+            <geometry>
+                <mesh
+                        filename="package://argo_mini_urdf_4w_drive/meshes/drive_base.STL"/>
+            </geometry>
+        </collision>
+    </link>
+    <joint name="base_to_drive" type="fixed">
+        <parent link="base_link"/>
+        <child link="drive_base"/>
+    </joint>
+    <link name="front_left_wheel_link">
+        <inertial>
+            <origin
+                    xyz="-0.000132976438457597 0.000630157739568461 0.00125637192714737"
+                    rpy="0 0 0"/>
+            <mass
+                    value="0.601298194269932"/>
+            <inertia
+                    ixx="0.000951626218444299"
+                    ixy="1.11512381441183E-08"
+                    ixz="9.61963010405324E-12"
+                    iyy="0.000951575744829073"
+                    iyz="5.8752834196995E-12"
+                    izz="0.0015537403857902"/>
+        </inertial>
+        <visual>
+            <origin
+                    xyz="0 0 0"
+                    rpy="0 0 0"/>
+            <geometry>
+                <mesh
+                        filename="package://argo_mini_urdf_4w_drive/meshes/front_left_wheel_link.STL"/>
+            </geometry>
+            <material
+                    name="">
+                <color
+                        rgba="0.564705882352941 0.564705882352941 0.564705882352941 1"/>
+            </material>
+        </visual>
+        <xacro:wheel_collision/>
+    </link>
+    <joint name="front_left_wheel"
+            type="continuous">
+        <origin
+                xyz="0.2025 0.16104 -0.0685"
+                rpy="-1.5708 0 0"/>
+        <parent
+                link="drive_base"/>
+        <child
+                link="front_left_wheel_link"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+    <link name="front_right_wheel_link">
+        <inertial>
+            <origin
+                    xyz="-0.000409063951642849 0.000497441843353711 0.00125636858119882"
+                    rpy="0 0 0"/>
+            <mass
+                    value="0.601298194354885"/>
+            <inertia
+                    ixx="0.000951606307031463"
+                    ixy="2.70709025331395E-08"
+                    ixz="9.95508732509517E-12"
+                    iyy="0.000951595656669067"
+                    iyz="6.00917374184981E-12"
+                    izz="0.00155374038621557"/>
+        </inertial>
+        <visual>
+            <origin
+                    xyz="0 0 0"
+                    rpy="0 0 0"/>
+            <geometry>
+                <mesh
+                        filename="package://argo_mini_urdf_4w_drive/meshes/front_right_wheel_link.STL"/>
+            </geometry>
+            <material
+                    name="">
+                <color rgba="0.564705882352941 0.564705882352941 0.564705882352941 1"/>
+            </material>
+        </visual>
+        <xacro:wheel_collision/>
+    </link>
+    <joint name="front_right_wheel" type="continuous">
+        <origin
+                xyz="0.202500000000013 -0.1732950259003 -0.0684999999999914"
+                rpy="1.5707963267949 0 0"/>
+        <parent
+                link="drive_base"/>
+        <child
+                link="front_right_wheel_link"/>
+        <axis
+                xyz="0 0 -1"/>
+        <limit effort="100"
+               velocity="3.14"/>
+    </joint>
+    <link name="rear_left_wheel_link">
+        <inertial>
+            <origin
+                    xyz="0.000145821226877896 -0.000627309998393347 0.00125637187842703"
+                    rpy="0 0 0"/>
+            <mass
+                    value="0.601298192573004"/>
+            <inertia
+                    ixx="0.000951625740098845"
+                    ixy="1.21706158348498E-08"
+                    ixz="-1.08675924310358E-11"
+                    iyy="0.000951576217552071"
+                    iyz="-5.29249888945555E-12"
+                    izz="0.00155374038114748"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0"
+                    rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://argo_mini_urdf_4w_drive/meshes/rear_left_wheel_link.STL"/>
+            </geometry>
+            <material name="">
+                <color rgba="0.564705882352941 0.564705882352941 0.564705882352941 1"/>
+            </material>
+        </visual>
+        <xacro:wheel_collision/>
+    </link>
+    <joint name="rear_left_wheel" type="continuous">
+        <origin xyz="-0.1725 0.16104 -0.0685"
+                rpy="-1.5708 0 0"/>
+        <parent link="drive_base"/>
+        <child link="rear_left_wheel_link"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+    <link name="rear_right_wheel_link">
+        <inertial>
+            <origin
+                    xyz="0.000643833851625031 -1.61151794025975E-05 0.00125636858288344"
+                    rpy="0 0 0"/>
+            <mass value="0.601298194117053"/>
+            <inertia
+                    ixx="0.000951573425928544"
+                    ixy="1.37609171340335E-09"
+                    ixz="-2.21436190316298E-12"
+                    iyy="0.000951628537037624"
+                    iyz="-1.12199423306577E-11"
+                    izz="0.00155374038543561"/>
+        </inertial>
+        <visual>
+            <origin
+                    xyz="0 0 0"
+                    rpy="0 0 0"/>
+            <geometry>
+                <mesh
+                        filename="package://argo_mini_urdf_4w_drive/meshes/rear_right_wheel_link.STL"/>
+            </geometry>
+            <material
+                    name="">
+                <color
+                        rgba="0.564705882352941 0.564705882352941 0.564705882352941 1"/>
+            </material>
+        </visual>
+        <xacro:wheel_collision/>
+    </link>
+    <joint name="rear_right_wheel" type="continuous">
+        <origin xyz="-0.1725 -0.1733 -0.0685"
+                rpy="1.5708 0 0"/>
+        <parent link="drive_base"/>
+        <child link="rear_right_wheel_link"/>
+        <axis xyz="0 0 -1"/>
+    </joint>
+
+    <xacro:gazebo_corpse link="drive_base"/>
+
+    <xacro:gazebo_wheel link="rear_right_wheel_link"/>
+    <xacro:gazebo_wheel link="rear_left_wheel_link"/>
+    <xacro:gazebo_wheel link="front_right_wheel_link"/>
+    <xacro:gazebo_wheel link="front_left_wheel_link"/>
+
+    <xacro:vel_transmiss joint="front_left_wheel"/>
+    <xacro:vel_transmiss joint="front_right_wheel"/>
+    <xacro:vel_transmiss joint="rear_left_wheel"/>
+    <xacro:vel_transmiss joint="rear_right_wheel"/>
+</robot>

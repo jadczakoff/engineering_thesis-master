@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="argo_mini_urdf_6w_drive">
+  <link
+    name="drive_base">
+    <inertial>
+      <origin
+        xyz="0.00874563254959665 -0.00236660328150901 -0.0490854383415856"
+        rpy="0 0 0" />
+      <mass
+        value="1.44946621413433" />
+      <inertia
+        ixx="0.000848127350529093"
+        ixy="-3.43805868688839E-10"
+        ixz="-2.58382326226388E-06"
+        iyy="0.00223379652936475"
+        iyz="-1.68220537133253E-07"
+        izz="0.00205727407895167" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/drive_base.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.564705882352941 0.564705882352941 0.564705882352941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/drive_base.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="front_left_turn_link">
+    <inertial>
+      <origin
+        xyz="-0.0202008319337566 -0.000537923907060631 0.108888065561637"
+        rpy="0 0 0" />
+      <mass
+        value="0.0791651660643748" />
+      <inertia
+        ixx="8.14759788204637E-05"
+        ixy="-1.4633291055377E-06"
+        ixz="4.3701071628893E-05"
+        iyy="0.000136389884985275"
+        iyz="1.16370713166833E-06"
+        izz="7.36288671954574E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/front_left_turn_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.564705882352941 0.564705882352941 0.564705882352941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/front_left_turn_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_left_turn"
+    type="revolute">
+    <origin
+      xyz="0.174999999976252 0.166487345210005 -0.0205134953134593"
+      rpy="3.14159265358973 0 1.5707963267949" />
+    <parent
+      link="drive_base" />
+    <child
+      link="front_left_turn_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="100"
+      velocity="3.14" />
+  </joint>
+  <link
+    name="front_left_wheel_link">
+    <inertial>
+      <origin
+        xyz="-0.000455402131096294 0.000455401371828285 0.0312563718756475"
+        rpy="0 0 0" />
+      <mass
+        value="0.60129819266432" />
+      <inertia
+        ixx="0.000951600981300395"
+        ixy="2.75877628912191E-08"
+        ixz="6.32205201106246E-12"
+        iyy="0.000951600976671848"
+        iyz="1.04425032891631E-11"
+        izz="0.00155374038149821" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/front_left_wheel_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.564705882352941 0.564705882352941 0.564705882352941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/front_left_wheel_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_left_wheel"
+    type="continuous">
+    <origin
+      xyz="-0.0299893692365746 -0.000798580917134806 0.138500000000019"
+      rpy="-1.5707963267947 -0.160752584870144 -1.54417381740566" />
+    <parent
+      link="front_left_turn_link" />
+    <child
+      link="front_left_wheel_link" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="front_right_turn_link">
+    <inertial>
+      <origin
+        xyz="0.0201980896108885 -0.000632573365492203 0.10888806556058"
+        rpy="0 0 0" />
+      <mass
+        value="0.0791651660643748" />
+      <inertia
+        ixx="8.14909084765224E-05"
+        ixy="1.72091256971028E-06"
+        ixz="-4.36951390792019E-05"
+        iyy="0.000136385812542526"
+        iyz="1.3684650711227E-06"
+        izz="7.3618009982148E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/front_right_turn_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/front_right_turn_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_right_turn"
+    type="revolute">
+    <origin
+      xyz="0.175000000022759 -0.178829853919777 -0.0200480862545637"
+      rpy="3.14159265358964 0 1.5707963267949" />
+    <parent
+      link="drive_base" />
+    <child
+      link="front_right_turn_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="100"
+      velocity="3.14" />
+  </joint>
+  <link
+    name="front_right_wheel_link">
+    <inertial>
+      <origin
+        xyz="0.000199018339452378 0.000612514003356546 0.0312563685802602"
+        rpy="0 0 0" />
+      <mass
+        value="0.601298194339803" />
+      <inertia
+        ixx="0.000951623304607226"
+        ixy="-1.62137429309689E-08"
+        ixz="1.04244034516537E-11"
+        iyy="0.000951578659069523"
+        iyz="-5.15458315408172E-12"
+        izz="0.00155374038618906" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/front_right_wheel_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.564705882352941 0.564705882352941 0.564705882352941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/front_right_wheel_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="front_right_wheel"
+    type="continuous">
+    <origin
+      xyz="0.0299852980910073 -0.000939093798454305 0.138500000000011"
+      rpy="-1.57079632679492 1.00237235232291 1.53948808645332" />
+    <parent
+      link="front_right_turn_link" />
+    <child
+      link="front_right_wheel_link" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="mid_left_turn_link">
+    <inertial>
+      <origin
+        xyz="-0.0202067360647799 -0.000225367594505477 0.108888065559684"
+        rpy="0 0 0" />
+      <mass
+        value="0.0791651660643748" />
+      <inertia
+        ixx="8.14438517875642E-05"
+        ixy="-6.13252847421405E-07"
+        ixz="4.37138442152049E-05"
+        iyy="0.000136422012018174"
+        iyz="4.87544593739856E-07"
+        izz="7.36288671954575E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/mid_left_turn_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/mid_left_turn_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="mid_left_turn"
+    type="revolute">
+    <origin
+      xyz="0.00999999997632967 0.166445170850159 -0.0207342759100906"
+      rpy="-3.14159265358978 0 1.5707963267949" />
+    <parent
+      link="drive_base" />
+    <child
+      link="mid_left_turn_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="100"
+      velocity="3.14" />
+  </joint>
+  <link
+    name="mid_left_wheel_link">
+    <inertial>
+      <origin
+        xyz="-0.000199018193523415 0.000612513923196736 0.0312563718801634"
+        rpy="0 0 0" />
+      <mass
+        value="0.601298189593992" />
+      <inertia
+        ixx="0.000951623298197635"
+        ixy="1.62158244190196E-08"
+        ixz="9.64173895210514E-12"
+        iyy="0.000951578651208246"
+        iyz="6.41678092749352E-12"
+        izz="0.00155374037277378" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/mid_left_wheel_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.564705882352941 0.564705882352941 0.564705882352941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/mid_left_wheel_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="mid_left_wheel"
+    type="continuous">
+    <origin
+      xyz="-0.0299981342803504 -0.000334571974733133 0.138499999999992"
+      rpy="-1.57079632679484 0 -1.5596436956655" />
+    <parent
+      link="mid_left_turn_link" />
+    <child
+      link="mid_left_wheel_link" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="mid_right_turn_link">
+    <inertial>
+      <origin
+        xyz="0.0202054933275991 -0.000317824430780766 0.108888065561104"
+        rpy="0 0 0" />
+      <mass
+        value="0.0791651660643748" />
+      <inertia
+        ixx="8.14506148607155E-05"
+        ixy="8.64785889730204E-07"
+        ixz="-4.37111557636445E-05"
+        iyy="0.000136415248945023"
+        iyz="6.87559167265988E-07"
+        izz="7.36288671954574E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/mid_right_turn_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/mid_right_turn_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="mid_right_turn"
+    type="revolute">
+    <origin
+      xyz="0.0100000000230957 -0.178931335517903 -0.0194653864671764"
+      rpy="3.14159265358964 0 1.5707963267949" />
+    <parent
+      link="drive_base" />
+    <child
+      link="mid_right_turn_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="100"
+      velocity="3.14" />
+  </joint>
+  <link
+    name="mid_right_wheel_link">
+    <inertial>
+      <origin
+        xyz="0.000100749668739047 0.000636106131368608 0.0312563686421631"
+        rpy="0 0 0" />
+      <mass
+        value="0.601298190237914" />
+      <inertia
+        ixx="0.000951627216739043"
+        ixy="-8.52421417099728E-09"
+        ixz="1.1094018498256E-11"
+        iyy="0.000951574734605343"
+        iyz="-4.57742884852605E-12"
+        izz="0.00155374037481326" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/mid_right_wheel_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.564705882352941 0.564705882352941 0.564705882352941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/mid_right_wheel_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="mid_right_wheel"
+    type="continuous">
+    <origin
+      xyz="0.0299962893606927 -0.000471829774504273 0.138500000000007"
+      rpy="-1.57079632679496 1.48302497084392 1.55506801995247" />
+    <parent
+      link="mid_right_turn_link" />
+    <child
+      link="mid_right_wheel_link" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="rear_left_turn_link">
+    <inertial>
+      <origin
+        xyz="-0.0202051907412302 0.000336511665076922 0.108888065562788"
+        rpy="0 0 0" />
+      <mass
+        value="0.0791651660643748" />
+      <inertia
+        ixx="8.14522614973296E-05"
+        ixy="9.15619300051283E-07"
+        ixz="4.37105011689119E-05"
+        iyy="0.000136413602308409"
+        iyz="-7.27985827222633E-07"
+        izz="7.36288671954575E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/rear_left_turn_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/rear_left_turn_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rear_left_turn"
+    type="revolute">
+    <origin
+      xyz="-0.155000000023439 0.166865369910765 -0.0182489865369013"
+      rpy="-3.14159265358978 0 1.5707963267949" />
+    <parent
+      link="drive_base" />
+    <child
+      link="rear_left_turn_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="100"
+      velocity="3.14" />
+  </joint>
+  <link
+    name="rear_left_wheel_link">
+    <inertial>
+      <origin
+        xyz="-0.000100749969724923 0.000636106358418861 0.0312563719226248"
+        rpy="0 0 0" />
+      <mass
+        value="0.601298196689103" />
+      <inertia
+        ixx="0.000951627224353808"
+        ixy="8.52510039254024E-09"
+        ixz="1.12859946929856E-11"
+        iyy="0.000951574745715636"
+        iyz="3.2311138200684E-12"
+        izz="0.00155374039262574" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/rear_left_wheel_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.564705882352941 0.564705882352941 0.564705882352941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/rear_left_wheel_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rear_left_wheel"
+    type="continuous">
+    <origin
+      xyz="-0.0299958401524058 0.00049957211555629 0.138500000000013"
+      rpy="-1.57079632679483 0 -1.5874494995914" />
+    <parent
+      link="rear_left_turn_link" />
+    <child
+      link="rear_left_wheel_link" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="rear_right_turn_link">
+    <inertial>
+      <origin
+        xyz="0.0202065674134458 0.00024001318633643 0.108888065561637"
+        rpy="0 0 0" />
+      <mass
+        value="0.0791651660643748" />
+      <inertia
+        ixx="8.14447696282363E-05"
+        ixy="-6.53099842711284E-07"
+        ixz="-4.37134793655911E-05"
+        iyy="0.000136421094177492"
+        iyz="-5.19227846136187E-07"
+        izz="7.36288671954679E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/rear_right_turn_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/rear_right_turn_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rear_right_turn"
+    type="revolute">
+    <origin
+      xyz="-0.154999999976742 -0.177723968827907 -0.0249018780713352"
+      rpy="3.14159265358964 0 1.5707963267949" />
+    <parent
+      link="drive_base" />
+    <child
+      link="rear_right_turn_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="100"
+      velocity="3.14" />
+  </joint>
+  <link
+    name="rear_right_wheel_link">
+    <inertial>
+      <origin
+        xyz="4.42568634517748E-10 0.000644035501771834 0.0312563685822128"
+        rpy="0 0 0" />
+      <mass
+        value="0.601298194105251" />
+      <inertia
+        ixx="0.000951628571372633"
+        ixy="4.1625716138945E-12"
+        ixz="1.12725616255066E-11"
+        iyy="0.000951573391586144"
+        iyz="-1.93288819601593E-12"
+        izz="0.00155374038542954" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/rear_right_wheel_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.564705882352941 0.564705882352941 0.564705882352941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://argo_mini_urdf_6w_drive/meshes/rear_right_wheel_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rear_right_wheel"
+    type="continuous">
+    <origin
+      xyz="0.0299978839064289 0.000356314250609557 0.13850000000001"
+      rpy="1.57079632678987 -1.54577220906003 -1.55891890506383" />
+    <parent
+      link="rear_right_turn_link" />
+    <child
+      link="rear_right_wheel_link" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+</robot>
